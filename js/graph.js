@@ -1,12 +1,17 @@
 //< " НАСТРОЙКИ ГРАФИКОВ (ПЕРЕМЕННЫЕ) " >=============================================================================================================>//
-
 const typeGraph = 'line';
 const labelGraph = 'Цена (ORC/BNB)';
-const backgroundColorGraph = 'rgba(0, 119, 255, 0.15)';
+const backgroundColorGraph = ['rgba(0, 119, 255, 0.15)'];
 const borderColorGraph = '#0075FF';
-const borderWidthGraph = 1;
+const borderWidthGraph = 2;
 const fillGraph = true;
+const pointRadiusGraph = 0;
+const gridBorderColorYGraph = "#ffffff33";
+const gridBorderColorXGraph = "transparent";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = "rgba(255, 255, 255, 0.6)";
 
+//< " НАСТРОЙКА КАСТОМНЫЙ ТУЛТИПОВ " >=============================================================================================================>//
 const external = (context) => {
 	if (window.innerWidth > 1330.2) {
 		let tooltipEl = document.getElementById('graph-tooltip');
@@ -67,8 +72,19 @@ const external = (context) => {
 	}
 }
 
-//< " ГРАФИК №1 (Всё) " >=============================================================================================================>//
+const label = (context) => {
+	let label = context.dataset.label || '';
 
+	if (label) {
+		label += ': ';
+	}
+	if (context.parsed.y !== null) {
+		label += new Intl.NumberFormat('RUB', { style: 'currency', currency: 'RUB' }).format(context.parsed.y);
+	}
+	return label;
+}
+
+//< " ГРАФИК №1 (Всё) " >=============================================================================================================>//
 const ctxFirst = document.getElementById("graph-1");
 ctxFirst.height = `${ctxFirst.parentElement.height}`;
 ctxFirst.width = `${ctxFirst.parentElement.width}`;
@@ -83,14 +99,30 @@ const myChartFirst = new Chart(ctxFirst, {
 			backgroundColor: backgroundColorGraph,
 			borderColor: borderColorGraph,
 			borderWidth: borderWidthGraph,
+			color: "#fff",
 			fill: fillGraph,
+			pointRadius: pointRadiusGraph,
+			pointBackgroundColor: borderColorGraph,
+			pointBorderWidth: 1,
+			pointHoverRadius: 4,
 		}]
 	},
 	options: {
 		maintainAspectRatio: true,
 		scales: {
 			y: {
-				beginAtZero: true
+				beginAtZero: true,
+				grid: {
+					borderDash: [3, 3],
+					borderColor: "transparent",
+					color: gridBorderColorYGraph,
+				}
+			},
+			x: {
+				grid: {
+					borderColor: "transparent",
+					color: gridBorderColorXGraph,
+				}
 			}
 		},
 		interaction: {
@@ -104,13 +136,15 @@ const myChartFirst = new Chart(ctxFirst, {
 			tooltip: {
 				enabled: false,
 				external: external,
+				callbacks: {
+					label: label,
+				}
 			}
 		}
 	}
 });
 
 //< " ГРАФИК №2 (1Д) " >=============================================================================================================>//
-
 const ctxSecond = document.getElementById("graph-2");
 ctxSecond.height = `${ctxSecond.parentElement.height}`;
 ctxSecond.width = `${ctxSecond.parentElement.width}`;
@@ -118,21 +152,37 @@ ctxSecond.width = `${ctxSecond.parentElement.width}`;
 const myChartSecond = new Chart(ctxSecond, {
 	type: typeGraph,
 	data: {
-		labels: ['01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '019:00', '10:00', '11:00', '12:00',],
+		labels: ['01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '19:00', '10:00', '11:00'],
 		datasets: [{
 			label: labelGraph,
-			data: [1800, 1600, 1850, 1700, 1850, 1620, 1820, 1700, 1650, 1850, 1920, 1970,],
+			data: [1800, 1600, 1850, 1700, 1850, 1220, 1820, 1700, 1650, 1850, 1920, 1970],
 			backgroundColor: backgroundColorGraph,
 			borderColor: borderColorGraph,
 			borderWidth: borderWidthGraph,
+			color: "#fff",
 			fill: fillGraph,
+			pointRadius: pointRadiusGraph,
+			pointBackgroundColor: borderColorGraph,
+			pointBorderWidth: 1,
+			pointHoverRadius: 4,
 		}]
 	},
 	options: {
 		maintainAspectRatio: true,
 		scales: {
 			y: {
-				beginAtZero: true
+				beginAtZero: true,
+				grid: {
+					borderDash: [3, 3],
+					borderColor: "transparent",
+					color: gridBorderColorYGraph,
+				}
+			},
+			x: {
+				grid: {
+					borderColor: "transparent",
+					color: gridBorderColorXGraph,
+				}
 			}
 		},
 		interaction: {
@@ -152,7 +202,6 @@ const myChartSecond = new Chart(ctxSecond, {
 });
 
 //< " ГРАФИК №3 (4Ч) " >=============================================================================================================>//
-
 const ctxThird = document.getElementById("graph-3");
 ctxThird.height = `${ctxThird.parentElement.height}`;
 ctxThird.width = `${ctxThird.parentElement.width}`;
@@ -163,18 +212,34 @@ const myChartThird = new Chart(ctxThird, {
 		labels: ['01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00'],
 		datasets: [{
 			label: labelGraph,
-			data: [1800, 1600, 1850, 1700, 1850, 1620, 1720],
+			data: [1200, 1350, 1300, 1900, 1550, 1620, 1920],
 			backgroundColor: backgroundColorGraph,
 			borderColor: borderColorGraph,
 			borderWidth: borderWidthGraph,
+			color: "#fff",
 			fill: fillGraph,
+			pointRadius: pointRadiusGraph,
+			pointBackgroundColor: borderColorGraph,
+			pointBorderWidth: 1,
+			pointHoverRadius: 4,
 		}]
 	},
 	options: {
 		maintainAspectRatio: true,
 		scales: {
 			y: {
-				beginAtZero: true
+				beginAtZero: true,
+				grid: {
+					borderDash: [3, 3],
+					borderColor: "transparent",
+					color: gridBorderColorYGraph,
+				}
+			},
+			x: {
+				grid: {
+					borderColor: "transparent",
+					color: gridBorderColorXGraph,
+				}
 			}
 		},
 		interaction: {
@@ -194,7 +259,6 @@ const myChartThird = new Chart(ctxThird, {
 });
 
 //< " ГРАФИК №4 (1Ч) " >=============================================================================================================>//
-
 const ctxFourth = document.getElementById("graph-4");
 ctxFourth.height = `${ctxFourth.parentElement.height}`;
 ctxFourth.width = `${ctxFourth.parentElement.width}`;
@@ -209,14 +273,30 @@ const myChartFourth = new Chart(ctxFourth, {
 			backgroundColor: backgroundColorGraph,
 			borderColor: borderColorGraph,
 			borderWidth: borderWidthGraph,
+			color: "#fff",
 			fill: fillGraph,
+			pointRadius: pointRadiusGraph,
+			pointBackgroundColor: borderColorGraph,
+			pointBorderWidth: 1,
+			pointHoverRadius: 4,
 		}]
 	},
 	options: {
 		maintainAspectRatio: true,
 		scales: {
 			y: {
-				beginAtZero: true
+				beginAtZero: true,
+				grid: {
+					borderDash: [3, 3],
+					borderColor: "transparent",
+					color: gridBorderColorYGraph,
+				}
+			},
+			x: {
+				grid: {
+					borderColor: "transparent",
+					color: gridBorderColorXGraph,
+				}
 			}
 		},
 		interaction: {

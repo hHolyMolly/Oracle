@@ -1,36 +1,1171 @@
-function dynamicAdaptive(){function a(a){this.type=a}a.prototype.init=function(){const a=this;this.оbjects=[],this.daClassname="_dynamic_adapt_",this.nodes=document.querySelectorAll("[data-da]");for(let a=0;a<this.nodes.length;a++){const b=this.nodes[a],c=b.dataset.da.trim(),d=c.split(","),e={};e.element=b,e.parent=b.parentNode,e.destination=document.querySelector(d[0].trim()),e.breakpoint=d[1]?d[1].trim():"767",e.place=d[2]?d[2].trim():"last",e.index=this.indexInParent(e.parent,e.element),this.оbjects.push(e)}this.arraySort(this.оbjects),this.mediaQueries=Array.prototype.map.call(this.оbjects,function(a){return"("+this.type+"-width: "+a.breakpoint+"px),"+a.breakpoint},this),this.mediaQueries=Array.prototype.filter.call(this.mediaQueries,function(a,b,c){return Array.prototype.indexOf.call(c,a)===b});for(let b=0;b<this.mediaQueries.length;b++){const c=this.mediaQueries[b],d=String.prototype.split.call(c,","),e=window.matchMedia(d[0]),f=d[1],g=Array.prototype.filter.call(this.оbjects,function(a){return a.breakpoint===f});e.addListener(function(){a.mediaHandler(e,g)}),this.mediaHandler(e,g)}},a.prototype.mediaHandler=function(a,b){if(a.matches)for(let a=0;a<b.length;a++){const c=b[a];c.index=this.indexInParent(c.parent,c.element),this.moveTo(c.place,c.element,c.destination)}else for(let a=0;a<b.length;a++){const c=b[a];c.element.classList.contains(this.daClassname)&&this.moveBack(c.parent,c.element,c.index)}},a.prototype.moveTo=function(a,b,c){return b.classList.add(this.daClassname),"last"===a||a>=c.children.length?void c.insertAdjacentElement("beforeend",b):"first"===a?void c.insertAdjacentElement("afterbegin",b):void c.children[a].insertAdjacentElement("beforebegin",b)},a.prototype.moveBack=function(a,b,c){b.classList.remove(this.daClassname),a.children[c]===void 0?a.insertAdjacentElement("beforeend",b):a.children[c].insertAdjacentElement("beforebegin",b)},a.prototype.indexInParent=function(a,b){const c=Array.prototype.slice.call(a.children);return Array.prototype.indexOf.call(c,b)},a.prototype.arraySort=function(a){return"min"===this.type?void Array.prototype.sort.call(a,function(c,a){return c.breakpoint===a.breakpoint?c.place===a.place?0:"first"===c.place||"last"===a.place?-1:"last"===c.place||"first"===a.place?1:c.place-a.place:c.breakpoint-a.breakpoint}):void Array.prototype.sort.call(a,function(c,a){return c.breakpoint===a.breakpoint?c.place===a.place?0:"first"===c.place||"last"===a.place?1:"last"===c.place||"first"===a.place?-1:a.place-c.place:a.breakpoint-c.breakpoint})};const b=new a("max");b.init()}dynamicAdaptive();function scrollHeader(){const a=document.querySelector(".header"),b=new IntersectionObserver(function(b){b[0].isIntersecting?a.classList.remove("_scroll"):a.classList.add("_scroll")});b.observe(a)}scrollHeader();function mySpollers(){const a=document.querySelectorAll("[data-spollers]");if(0<a.length){function c(a,b=!1){a.forEach(a=>{a=b?a.item:a,b.matches||!b?(a.classList.add("_init"),e(a),a.addEventListener("click",f)):(a.classList.remove("_init"),e(a,!1),a.removeEventListener("click",f))})}function e(a,b=!0){const c=a.querySelectorAll("[data-spoller]");0<c.length&&c.forEach(a=>{b?(a.removeAttribute("tabindex"),!a.classList.contains("_active")&&(a.nextElementSibling.hidden=!0)):(a.setAttribute("tabindex","-1"),a.nextElementSibling.hidden=!1)})}function f(a){const b=a.target;if(b.hasAttribute("data-spoller")||b.closest("[data-spoller]")){const c=b.hasAttribute("data-spoller")?b:b.closest("[data-spoller]"),e=c.closest("[data-spollers]"),f=!!e.hasAttribute("data-one-spoller");e.querySelectorAll("._slide").length||(f&&!c.classList.contains("_active")&&g(e),c.classList.toggle("_active"),d(c.nextElementSibling,500)),a.preventDefault()}}function g(a){const c=a.querySelector("[data-spoller]._active");c&&(c.classList.remove("_active"),b(c.nextElementSibling,500))}const h=Array.from(a).filter(function(a){return!a.dataset.spollers.split(",")[0]});0<h.length&&c(h);const i=Array.from(a).filter(function(a){return a.dataset.spollers.split(",")[0]});if(0<i.length){const a=[];i.forEach(b=>{const c=b.dataset.spollers,d={},e=c.split(",");d.value=e[0],d.type=e[1]?e[1].trim():"max",d.item=b,a.push(d)});let b=a.map(function(a){return"("+a.type+"-width: "+a.value+"px),"+a.value+","+a.type});b=b.filter(function(a,b,c){return c.indexOf(a)===b}),b.forEach(b=>{const d=b.split(","),e=d[1],f=d[2],g=window.matchMedia(d[0]),h=a.filter(function(a){if(a.value===e&&a.type===f)return!0});g.addListener(function(){c(h,g)}),c(h,g)})}}let b=(a,b=500)=>{a.classList.contains("_slide")||(a.classList.add("_slide"),a.style.transitionProperty="height, margin, padding",a.style.transitionDuration=b+"ms",a.style.height=a.offsetHeight+"px",a.offsetHeight,a.style.overflow="hidden",a.style.height=0,a.style.paddingTop=0,a.style.paddingBottom=0,a.style.marginTop=0,a.style.marginBottom=0,window.setTimeout(()=>{a.hidden=!0,a.style.removeProperty("height"),a.style.removeProperty("padding-top"),a.style.removeProperty("padding-bottom"),a.style.removeProperty("margin-top"),a.style.removeProperty("margin-bottom"),a.style.removeProperty("overflow"),a.style.removeProperty("transition-duration"),a.style.removeProperty("transition-property"),a.classList.remove("_slide")},b))},c=(a,b=500)=>{if(!a.classList.contains("_slide")){a.classList.add("_slide"),a.hidden&&(a.hidden=!1);let c=a.offsetHeight;a.style.overflow="hidden",a.style.height=0,a.style.paddingTop=0,a.style.paddingBottom=0,a.style.marginTop=0,a.style.marginBottom=0,a.offsetHeight,a.style.transitionProperty="height, margin, padding",a.style.transitionDuration=b+"ms",a.style.height=c+"px",a.style.removeProperty("padding-top"),a.style.removeProperty("padding-bottom"),a.style.removeProperty("margin-top"),a.style.removeProperty("margin-bottom"),window.setTimeout(()=>{a.style.removeProperty("height"),a.style.removeProperty("overflow"),a.style.removeProperty("transition-duration"),a.style.removeProperty("transition-property"),a.classList.remove("_slide")},b)}},d=(a,d=500)=>a.hidden?c(a,d):b(a,d)}mySpollers();function myPopups(){const a=document.querySelectorAll("[data-popup-open]"),b=document.querySelectorAll(".lock-padding"),c=document.body;let d=!0;const e=500;if(a){function f(a){if(a&&d){const b=document.querySelector(".popup._active");b?g(b,!1):h(),a.classList.add("_active"),a.addEventListener("click",function(a){a.target.closest(".popup__body")||g(a.target.closest(".popup"))})}}function g(a,b=!0){d&&(a.classList.remove("_active"),b&&i())}function h(){const a=window.innerWidth-document.querySelector(".wrapper").offsetWidth+"px";b&&b.forEach(b=>{b.style.paddingRight=a}),c.style.paddingRight=a,c.classList.add("_lock-scroll"),d=!1,setTimeout(()=>{d=!0},e)}function i(){setTimeout(()=>{b&&b.forEach(a=>{a.style.paddingRight="0px"}),c.style.paddingRight="0px",c.classList.remove("_lock-scroll")},e),d=!1,setTimeout(()=>{d=!0},e)}a.forEach(a=>{a.addEventListener("click",function(a){const b=this.getAttribute("data-popup"),c=document.getElementById(b);f(c)})});const j=document.querySelectorAll("[data-popup-close]");j.forEach(a=>{a.addEventListener("click",function(b){g(a.closest(".popup"))})}),document.addEventListener("keydown",function(a){if("Escape"===a.code){const a=document.querySelector(".popup._active");g(a)}}),function(){Element.prototype.closest||(Element.prototype.closest=function(a){for(var b=this;b;){if(b.matches(a))return b;b=b.parentElement}return null})}(),function(){Element.prototype.matches||(Element.prototype.mathes=Element.prototype.matchesSelector||Element.prototype.webkitMatchesSelector||Element.prototype.mozMatchesSelector||Element.prototype.msMatchesSelector)}()}}myPopups();function myBurger(){if(document.getElementById("menu-content")){const a=document.getElementById("menu-open"),b=document.getElementById("menu-content"),c=document.querySelector("body");if(a&&b){a.addEventListener("click",function(){b.classList.toggle("_active"),a.classList.toggle("_active"),c.classList.toggle("_lock-scroll"),document.querySelector(".header__wrapper").classList.toggle("_active")});const d=document.getElementById("menu-close");if(document.addEventListener("click",function(f){const e=f.target;e===d&&(b.classList.remove("_active"),a.classList.remove("_active"),c.classList.remove("_lock-scroll"),document.querySelector(".header__wrapper").classList.remove("_active"))}),document.querySelector("[data-popup-open]")){function c(){const c=document.querySelectorAll("[data-popup-open]");c.forEach(c=>{c.addEventListener("click",function(){b.classList.remove("_active"),a.classList.remove("_active"),document.querySelector(".header__wrapper").classList.remove("_active")})})}c()}}}}myBurger();function myTabs(){document.addEventListener("click",a=>{const b=a.target;if(b.closest("[data-tab-btn]")){const a=b.getAttribute("data-tab-btn"),c=`[data-tab="${a}"]`,d=b.closest("[data-tabs]").querySelector(`${c}`);d.style.display="block";const e=b.closest("[data-tabs]").querySelectorAll("[data-tab-btn]");console.log(b.closest("[data-tabs]").querySelector(`${c}`).getBoundingClientRect()),e.forEach(a=>{a.classList.remove("_active")}),b.classList.add("_active");const f=b.closest("[data-tabs]").querySelectorAll("[data-tab]");f.forEach(b=>{b.getAttribute("data-tab")===a||(b.style.display="none")})}})}myTabs();function myForms(){const a=document.querySelectorAll("form");if(0<a.length){let b,c,d=0;c="\u042D\u0442\u043E \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E\u0435 \u043F\u043E\u043B\u0435",a.forEach(a=>{function f(a,b){const c=b.target;if(!c.classList.contains("_invalid"))c.parentElement.querySelectorAll(".field__error").forEach(a=>{a.remove()});else if(1>c.parentElement.querySelectorAll(".field__error").length){const b=`
-							<div class="field__error field-error">
-								<span class="field-error__icon">!</span>
-								<div class="field-error__dropdown">
-									${a}
-								</div>
-							</div>
-							`;c.parentElement.insertAdjacentHTML("beforeEnd",b)}}function g(a){const b=a.target;b.classList.contains("_invalid")&&(b.classList.remove("_invalid"),b.parentElement.querySelectorAll(".field__error").forEach(a=>{a.remove()}))}function h(a){if(a.classList.contains("_required"))if(b=a.getAttribute("data-form-prompt"),(null===b||""===b)&&(b=`${c}`),!0===a.checked)a.classList.remove("_invalid"),a.parentElement.querySelectorAll(".field__error").forEach(a=>{a.remove()});else{a.classList.add("_invalid"),d++;let c=`${b}`;if(1>a.parentElement.querySelectorAll(".field__error").length){const b=`
-										<div class="field__error field-error">
-											<span class="field-error__icon">!</span>
-											<div class="field-error__dropdown">
-												${c}
-											</div>
-										</div>
-										`;a.parentElement.insertAdjacentHTML("beforeEnd",b)}}}function i(f){j.forEach(a=>{if(a.classList.contains("_required")){function e(){function c(a){return e.test(a)}const e=/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;c(a.value)?a.classList.remove("_invalid"):(a.classList.add("_invalid"),d++);let f=`${b}`;i(f)}function f(){const c=/^.{8,}$/,e=/^\D.*$/,f=/^[^-() /]*$/,g=/^.*[a-zA-Z]+.*$/;c.test(a.value)&&e.test(a.value)&&f.test(a.value)&&g.test(a.value)?a.classList.remove("_invalid"):(a.classList.add("_invalid"),d++);let h=`${b}`;i(h)}function g(){m.forEach(b=>{const c=/^[\d\+][\d\(\)\ -]{4,14}\d$/,e=c.test(b.value);e?a.classList.remove("_invalid"):(a.classList.add("_invalid"),d++)});let c=`${b}`;i(c)}function h(){2>a.value.length?(a.classList.add("_invalid"),d++):a.classList.remove("_invalid"),a.value.match(/^[ ]+$/)&&(a.classList.add("_invalid"),d++,a.value="")}function i(b){if(!a.classList.contains("_invalid"))a.parentElement.querySelectorAll(".field__error").forEach(a=>{a.remove()});else if(1>a.parentElement.querySelectorAll(".field__error").length){const c=`
-										<div class="field__error field-error">
-											<span class="field-error__icon">!</span>
-											<div class="field-error__dropdown">
-												${b}
-											</div>
-										</div>
-										`;a.parentElement.insertAdjacentHTML("beforeEnd",c)}}if(b=a.getAttribute("data-form-prompt"),(null===b||""===b)&&(b=`${c}`),h(),!a.classList.contains("_email")&&!a.classList.contains("_password")&&!a.classList.contains("_phone")&&!a.classList.contains("_name")){let a=`${b}`;i(a)}a.classList.contains("_email")&&e(),a.classList.contains("_password")&&f(),a.classList.contains("_phone")&&g()}}),k.forEach(a=>{if(a.classList.contains("_required"))if(b=a.getAttribute("data-form-prompt"),(null===b||""===b)&&(b=`${c}`),a.value.match(/^[ ]+$/)&&(a.classList.add("_invalid"),d++,a.value=""),2>a.value.length){a.classList.add("_invalid");let c=`${b}`;if(!a.classList.contains("_invalid"))a.parentElement.querySelectorAll(".field__error").forEach(a=>{a.remove()});else if(1>a.parentElement.querySelectorAll(".field__error").length){const b=`
-										<div class="field__error field-error">
-											<span class="field-error__icon">!</span>
-											<div class="field-error__dropdown">
-												${c}
-											</div>
-										</div>
-										`;a.parentElement.insertAdjacentHTML("beforeEnd",b)}}else a.classList.remove("_invalid")}),l.forEach(a=>{h(a)});const e=a.querySelectorAll("._invalid");1>e.length&&(d=0),0<d&&f.preventDefault()}const j=a.querySelectorAll("input"),k=a.querySelectorAll("textarea"),l=a.querySelectorAll("input[type=\"checkbox\"]"),m=a.querySelectorAll("input[type=\"tel\"]");a.classList.contains("_required")&&(a.addEventListener("submit",i),j.forEach(a=>{a.addEventListener("focus",g)}),k.forEach(a=>{a.addEventListener("focus",g)}),j.forEach(a=>{a.addEventListener("blur",function(g){const e=g.target;if(!e.classList.contains("_invalid")){if(e.classList.add("_invalid"),b=this.getAttribute("data-form-prompt"),(null===b||""===b)&&(b=`${c}`),a.value.match(/^[ ]+$/)&&(a.classList.add("_invalid"),d++,a.value=""),!e.classList.contains("_email")&&!e.classList.contains("_password")&&!e.classList.contains("_phone"))if(2>a.value.length){a.classList.add("_invalid");let c=`${b}`;f(c,g)}else a.classList.remove("_invalid");if(e.classList.contains("_email")){function c(a){return d.test(a)}const d=/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;if(!c(a.value)){a.classList.add("_invalid");let c=`${b}`;f(c,g)}else a.classList.remove("_invalid")}if(e.classList.contains("_password")){const c=/^.{8,}$/,d=/^\D.*$/,e=/^[^-() /]*$/,h=/^.*[a-zA-Z]+.*$/;if(c.test(a.value)&&d.test(a.value)&&e.test(a.value)&&h.test(a.value))a.classList.remove("_invalid");else{a.classList.add("_invalid");let c=`${b}`;f(c,g)}}if(e.classList.contains("_phone")){m.forEach(b=>{const c=/^[\d\+][\d\(\)\ -]{4,14}\d$/,d=c.test(b.value);d?a.classList.remove("_invalid"):a.classList.add("_invalid")});let c=`${b}`;f(c,g)}}})}),k.forEach(a=>{a.addEventListener("blur",function(f){const e=f.target;if(!e.classList.contains("_invalid")&&(b=this.getAttribute("data-form-prompt"),(null===b||""===b)&&(b=`${c}`),a.value.match(/^[ ]+$/)&&(a.classList.add("_invalid"),d++,a.value=""),2>a.value.length)){a.classList.add("_invalid");let c=`${b}`;if(!a.classList.contains("_invalid"))a.parentElement.querySelectorAll(".field__error").forEach(a=>{a.remove()});else if(1>a.parentElement.querySelectorAll(".field__error").length){const b=`
+//< " ПОДКЛЮЧЕНИЕ JS КОМПОНЕНТОВ " >=============================================================================================================>//
+function dynamicAdaptive() {
+	function DynamicAdapt(type) {
+		this.type = type;
+	}
+
+	DynamicAdapt.prototype.init = function () {
+		const _this = this;
+		this.оbjects = [];
+		this.daClassname = "_dynamic_adapt_";
+		this.nodes = document.querySelectorAll("[data-da]");
+
+		for (let i = 0; i < this.nodes.length; i++) {
+			const node = this.nodes[i];
+			const data = node.dataset.da.trim();
+			const dataArray = data.split(",");
+			const оbject = {};
+			оbject.element = node;
+			оbject.parent = node.parentNode;
+			оbject.destination = document.querySelector(dataArray[0].trim());
+			оbject.breakpoint = dataArray[1] ? dataArray[1].trim() : "767";
+			оbject.place = dataArray[2] ? dataArray[2].trim() : "last";
+			оbject.index = this.indexInParent(оbject.parent, оbject.element);
+			this.оbjects.push(оbject);
+		}
+
+		this.arraySort(this.оbjects);
+
+		this.mediaQueries = Array.prototype.map.call(this.оbjects, function (item) {
+			return '(' + this.type + "-width: " + item.breakpoint + "px)," + item.breakpoint;
+		}, this);
+		this.mediaQueries = Array.prototype.filter.call(this.mediaQueries, function (item, index, self) {
+			return Array.prototype.indexOf.call(self, item) === index;
+		});
+
+		for (let i = 0; i < this.mediaQueries.length; i++) {
+			const media = this.mediaQueries[i];
+			const mediaSplit = String.prototype.split.call(media, ',');
+			const matchMedia = window.matchMedia(mediaSplit[0]);
+			const mediaBreakpoint = mediaSplit[1];
+
+			const оbjectsFilter = Array.prototype.filter.call(this.оbjects, function (item) {
+				return item.breakpoint === mediaBreakpoint;
+			});
+			matchMedia.addListener(function () {
+				_this.mediaHandler(matchMedia, оbjectsFilter);
+			});
+			this.mediaHandler(matchMedia, оbjectsFilter);
+		}
+	};
+
+	DynamicAdapt.prototype.mediaHandler = function (matchMedia, оbjects) {
+		if (matchMedia.matches) {
+			for (let i = 0; i < оbjects.length; i++) {
+				const оbject = оbjects[i];
+				оbject.index = this.indexInParent(оbject.parent, оbject.element);
+				this.moveTo(оbject.place, оbject.element, оbject.destination);
+			}
+		} else {
+			for (let i = 0; i < оbjects.length; i++) {
+				const оbject = оbjects[i];
+				if (оbject.element.classList.contains(this.daClassname)) {
+					this.moveBack(оbject.parent, оbject.element, оbject.index);
+				}
+			}
+		}
+	};
+
+	DynamicAdapt.prototype.moveTo = function (place, element, destination) {
+		element.classList.add(this.daClassname);
+		if (place === 'last' || place >= destination.children.length) {
+			destination.insertAdjacentElement('beforeend', element);
+			return;
+		}
+		if (place === 'first') {
+			destination.insertAdjacentElement('afterbegin', element);
+			return;
+		}
+		destination.children[place].insertAdjacentElement('beforebegin', element);
+	}
+
+	DynamicAdapt.prototype.moveBack = function (parent, element, index) {
+		element.classList.remove(this.daClassname);
+		if (parent.children[index] !== undefined) {
+			parent.children[index].insertAdjacentElement('beforebegin', element);
+		} else {
+			parent.insertAdjacentElement('beforeend', element);
+		}
+	}
+
+	DynamicAdapt.prototype.indexInParent = function (parent, element) {
+		const array = Array.prototype.slice.call(parent.children);
+		return Array.prototype.indexOf.call(array, element);
+	};
+
+	DynamicAdapt.prototype.arraySort = function (arr) {
+		if (this.type === "min") {
+			Array.prototype.sort.call(arr, function (a, b) {
+				if (a.breakpoint === b.breakpoint) {
+					if (a.place === b.place) {
+						return 0;
+					}
+
+					if (a.place === "first" || b.place === "last") {
+						return -1;
+					}
+
+					if (a.place === "last" || b.place === "first") {
+						return 1;
+					}
+
+					return a.place - b.place;
+				}
+
+				return a.breakpoint - b.breakpoint;
+			});
+		} else {
+			Array.prototype.sort.call(arr, function (a, b) {
+				if (a.breakpoint === b.breakpoint) {
+					if (a.place === b.place) {
+						return 0;
+					}
+
+					if (a.place === "first" || b.place === "last") {
+						return 1;
+					}
+
+					if (a.place === "last" || b.place === "first") {
+						return -1;
+					}
+
+					return b.place - a.place;
+				}
+
+				return b.breakpoint - a.breakpoint;
+			});
+			return;
+		}
+	};
+
+	const da = new DynamicAdapt("max");
+	da.init();
+
+}
+dynamicAdaptive(); // ДИНАМИЧЕСКИЙ АДАПТИВ
+
+function scrollHeader() {
+	const header = document.querySelector('.header');
+
+	const callback = function (entries, observer) {
+		if (entries[0].isIntersecting) {
+			header.classList.remove('_scroll');
+		} else {
+			header.classList.add('_scroll');
+		}
+	};
+
+	const headerObserver = new IntersectionObserver(callback);
+	headerObserver.observe(header);
+}
+scrollHeader(); // ДОБАВЛЕНИЕ ХЕДЕРУ КЛАСС ПРИ СКРОЛЛЕ
+
+/* if (document.querySelector(".swiper")) {
+	new Swiper(".swiper", {
+		slidesPerView: 1,
+		spaceBetween: 15,
+		grabCursor: true,
+		loop: true,
+		speed: 800,
+
+		autoplay: {
+			delay: 3500,
+		},
+
+		navigation: {
+			nextEl: ".swiper-button-next",
+			prevEl: ".swiper-button-prev",
+		},
+
+		breakpoints: {
+			767.8: {},
+		}
+	});
+}
+
+; // НАСТРОЙКИ СЛАЙДЕРА */
+
+/* function quantity() {
+	if (document.querySelectorAll('[data-quantity]')) {
+		let minValue = 1; // Минимальное значение
+		let maxValue = 20; // Максимальное значение
+
+		const counters = document.querySelectorAll('[data-quantity]');
+
+		counters.forEach(counter => {
+			counter.addEventListener("click", function (e) {
+				const elementTarget = e.target;
+				let value = parseInt(elementTarget.closest(".counter").querySelector('.counter__input').value);
+
+				if (elementTarget.closest('.counter__btn')) {
+					if (elementTarget.classList.contains("counter__btn_plus")) {
+						value++;
+					} else {
+						--value;
+					}
+
+					if (value <= minValue) {
+						value = minValue;
+						elementTarget.closest(".counter").querySelector(".counter__btn_minus").classList.add("counter__btn_disabled");
+					} else {
+						elementTarget.closest(".counter").querySelector(".counter__btn_minus").classList.remove("counter__btn_disabled");
+					}
+
+					if (value >= maxValue) {
+						value = maxValue;
+						elementTarget.closest(".counter").querySelector(".counter__btn_plus").classList.add("counter__btn_disabled");
+					} else {
+						elementTarget.closest(".counter").querySelector(".counter__btn_plus").classList.remove("counter__btn_disabled");
+					}
+				}
+
+				elementTarget.closest(".counter").querySelector(".counter__input").value = value;
+				elementTarget.closest(".counter").querySelector(".counter__input").setAttribute("value", value)
+			});
+
+			counter.addEventListener("input", function (e) {
+				const elementTarget = e.target;
+				let value = parseInt(elementTarget.closest(".counter").querySelector('.counter__input').value);
+
+				if (value >= maxValue) {
+					value = maxValue;
+					elementTarget.closest(".counter").querySelector(".counter__btn_plus").classList.add("counter__btn_disabled");
+				} else {
+					elementTarget.closest(".counter").querySelector(".counter__btn_plus").classList.remove("counter__btn_disabled");
+				}
+
+				if (value <= minValue) {
+					value = minValue;
+					elementTarget.closest(".counter").querySelector(".counter__btn_minus").classList.add("counter__btn_disabled");
+				} else {
+					elementTarget.closest(".counter").querySelector(".counter__btn_minus").classList.remove("counter__btn_disabled");
+				}
+
+				elementTarget.closest(".counter").querySelector(".counter__input").value = value;
+				elementTarget.closest(".counter").querySelector(".counter__input").setAttribute("value", value)
+			});
+		});
+	}
+};
+quantity(); // СЧЁТЧИКИ */
+
+function mySpollers() {
+	const spollersArray = document.querySelectorAll('[data-spollers]');
+
+	if (spollersArray.length > 0) {
+		// Получение обычных спойлеров
+		const spollersRegular = Array.from(spollersArray).filter(function (item, index, self) {
+			return !item.dataset.spollers.split(",")[0];
+		});
+		// Инициализация обычных спойлеров
+		if (spollersRegular.length > 0) {
+			initSpollers(spollersRegular);
+		}
+
+		// Получение спойлеров с медиа запросами
+		const spollersMedia = Array.from(spollersArray).filter(function (item, index, self) {
+			return item.dataset.spollers.split(",")[0];
+		});
+
+		// Инициализация спойлеров с медиа запросами
+		if (spollersMedia.length > 0) {
+			const breakpointsArray = [];
+			spollersMedia.forEach(item => {
+				const params = item.dataset.spollers;
+				const breakpoint = {};
+				const paramsArray = params.split(",");
+				breakpoint.value = paramsArray[0];
+				breakpoint.type = paramsArray[1] ? paramsArray[1].trim() : "max";
+				breakpoint.item = item;
+				breakpointsArray.push(breakpoint);
+			});
+
+			// Получаем уникальные брейкпоинты
+			let mediaQueries = breakpointsArray.map(function (item) {
+				return '(' + item.type + "-width: " + item.value + "px)," + item.value + ',' + item.type;
+			});
+			mediaQueries = mediaQueries.filter(function (item, index, self) {
+				return self.indexOf(item) === index;
+			});
+
+			// Работаем с каждым брейкпоинтом
+			mediaQueries.forEach(breakpoint => {
+				const paramsArray = breakpoint.split(",");
+				const mediaBreakpoint = paramsArray[1];
+				const mediaType = paramsArray[2];
+				const matchMedia = window.matchMedia(paramsArray[0]);
+
+				// Объекты с нужными условиями
+				const spollersArray = breakpointsArray.filter(function (item) {
+					if (item.value === mediaBreakpoint && item.type === mediaType) {
+						return true;
+					}
+				});
+				// Событие
+				matchMedia.addListener(function () {
+					initSpollers(spollersArray, matchMedia);
+				});
+				initSpollers(spollersArray, matchMedia);
+			});
+		}
+		// Инициализация
+		function initSpollers(spollersArray, matchMedia = false) {
+			spollersArray.forEach(spollersBlock => {
+				spollersBlock = matchMedia ? spollersBlock.item : spollersBlock;
+				if (matchMedia.matches || !matchMedia) {
+					spollersBlock.classList.add('_init');
+					initSpollerBody(spollersBlock);
+					spollersBlock.addEventListener("click", setSpollerAction);
+				} else {
+					spollersBlock.classList.remove('_init');
+					initSpollerBody(spollersBlock, false);
+					spollersBlock.removeEventListener("click", setSpollerAction);
+				}
+			});
+		}
+		// Работа с контентом
+		function initSpollerBody(spollersBlock, hideSpollerBody = true) {
+			const spollerTitles = spollersBlock.querySelectorAll('[data-spoller]');
+			if (spollerTitles.length > 0) {
+				spollerTitles.forEach(spollerTitle => {
+					if (hideSpollerBody) {
+						spollerTitle.removeAttribute('tabindex');
+						if (!spollerTitle.classList.contains('_active')) {
+							spollerTitle.nextElementSibling.hidden = true;
+						}
+					} else {
+						spollerTitle.setAttribute('tabindex', '-1');
+						spollerTitle.nextElementSibling.hidden = false;
+					}
+				});
+			}
+		}
+		function setSpollerAction(e) {
+			const el = e.target;
+			if (el.hasAttribute('data-spoller') || el.closest('[data-spoller]')) {
+				const spollerTitle = el.hasAttribute('data-spoller') ? el : el.closest('[data-spoller]');
+				const spollersBlock = spollerTitle.closest('[data-spollers]');
+				const oneSpoller = spollersBlock.hasAttribute('data-one-spoller') ? true : false;
+				if (!spollersBlock.querySelectorAll('._slide').length) {
+					if (oneSpoller && !spollerTitle.classList.contains('_active')) {
+						hideSpollersBody(spollersBlock);
+					}
+					spollerTitle.classList.toggle('_active');
+					_slideToggle(spollerTitle.nextElementSibling, 500);
+				}
+				e.preventDefault();
+			}
+		}
+		function hideSpollersBody(spollersBlock) {
+			const spollerActiveTitle = spollersBlock.querySelector('[data-spoller]._active');
+			if (spollerActiveTitle) {
+				spollerActiveTitle.classList.remove('_active');
+				_slideUp(spollerActiveTitle.nextElementSibling, 500);
+			}
+		}
+	}
+
+	let _slideUp = (target, duration = 500) => {
+		if (!target.classList.contains('_slide')) {
+			target.classList.add('_slide');
+			target.style.transitionProperty = 'height, margin, padding';
+			target.style.transitionDuration = duration + 'ms';
+			target.style.height = target.offsetHeight + 'px';
+			target.offsetHeight;
+			target.style.overflow = 'hidden';
+			target.style.height = 0;
+			target.style.paddingTop = 0;
+			target.style.paddingBottom = 0;
+			target.style.marginTop = 0;
+			target.style.marginBottom = 0;
+			window.setTimeout(() => {
+				target.hidden = true;
+				target.style.removeProperty('height');
+				target.style.removeProperty('padding-top');
+				target.style.removeProperty('padding-bottom');
+				target.style.removeProperty('margin-top');
+				target.style.removeProperty('margin-bottom');
+				target.style.removeProperty('overflow');
+				target.style.removeProperty('transition-duration');
+				target.style.removeProperty('transition-property');
+				target.classList.remove('_slide');
+			}, duration);
+		}
+	}
+	let _slideDown = (target, duration = 500) => {
+		if (!target.classList.contains('_slide')) {
+			target.classList.add('_slide');
+			if (target.hidden) {
+				target.hidden = false;
+			}
+			let height = target.offsetHeight;
+			target.style.overflow = 'hidden';
+			target.style.height = 0;
+			target.style.paddingTop = 0;
+			target.style.paddingBottom = 0;
+			target.style.marginTop = 0;
+			target.style.marginBottom = 0;
+			target.offsetHeight;
+			target.style.transitionProperty = "height, margin, padding";
+			target.style.transitionDuration = duration + 'ms';
+			target.style.height = height + 'px';
+			target.style.removeProperty('padding-top');
+			target.style.removeProperty('padding-bottom');
+			target.style.removeProperty('margin-top');
+			target.style.removeProperty('margin-bottom');
+			window.setTimeout(() => {
+				target.style.removeProperty('height');
+				target.style.removeProperty('overflow');
+				target.style.removeProperty('transition-duration');
+				target.style.removeProperty('transition-property');
+				target.classList.remove('_slide');
+			}, duration);
+		}
+	}
+	let _slideToggle = (target, duration = 500) => {
+		if (target.hidden) {
+			return _slideDown(target, duration);
+		} else {
+			return _slideUp(target, duration);
+		}
+	}
+}
+mySpollers(); // СПОЙЛЕРЫ
+
+function myPopups() {
+	const links = document.querySelectorAll("[data-popup-open]");
+	const lockPadding = document.querySelectorAll(".lock-padding");
+	const body = document.body;
+
+	let unlock = true;
+
+	const time = 500;
+
+	if (links) {
+		links.forEach(link => {
+			link.addEventListener("click", function (e) {
+				const popupName = this.getAttribute("data-popup");
+				const currentPopup = document.getElementById(popupName);
+				popupOpen(currentPopup);
+			});
+		});
+
+		const close = document.querySelectorAll("[data-popup-close]");
+
+		close.forEach(item => {
+			item.addEventListener("click", function (e) {
+				popupClose(item.closest(".popup"));
+			});
+		});
+
+		function popupOpen(currentPopup) {
+			if (currentPopup && unlock) {
+				const popupActive = document.querySelector(".popup._active");
+
+				if (popupActive) {
+					popupClose(popupActive, false);
+				} else {
+					bodyLock();
+				}
+
+				currentPopup.classList.add("_active");
+
+				currentPopup.addEventListener("click", function (e) {
+					if (!e.target.closest(".popup__body")) {
+						popupClose(e.target.closest(".popup"));
+					}
+				});
+			}
+		}
+
+		function popupClose(popupActive, doUnlock = true) {
+			if (unlock) {
+				popupActive.classList.remove("_active");
+				if (doUnlock) {
+					bodyUnLock();
+				}
+			}
+		}
+
+		function bodyLock() {
+			const lockPaddingValue = window.innerWidth - document.querySelector(".wrapper").offsetWidth + "px";
+
+			if (lockPadding) {
+				lockPadding.forEach(elem => {
+					elem.style.paddingRight = lockPaddingValue;
+				});
+			}
+			body.style.paddingRight = lockPaddingValue;
+			body.classList.add("_lock-scroll");
+
+			unlock = false;
+			setTimeout(() => {
+				unlock = true;
+			}, time);
+		}
+
+		function bodyUnLock() {
+			setTimeout(() => {
+				if (lockPadding) {
+					lockPadding.forEach(elem => {
+						elem.style.paddingRight = "0px";
+					});
+				}
+				body.style.paddingRight = "0px";
+				body.classList.remove("_lock-scroll");
+			}, time);
+
+			unlock = false;
+			setTimeout(() => {
+				unlock = true;
+			}, time);
+		}
+
+		document.addEventListener("keydown", function (e) {
+			if (e.code === "Escape") {
+				const popupActive = document.querySelector(".popup._active");
+				popupClose(popupActive);
+			}
+		});
+
+		(function () {
+			if (!Element.prototype.closest) {
+				Element.prototype.closest = function (css) {
+					var node = this;
+					while (node) {
+						if (node.matches(css)) return node;
+						else node = node.parentElement;
+					}
+					return null;
+				};
+			}
+		})();
+		(function () {
+			if (!Element.prototype.matches) {
+				Element.prototype.mathes = Element.prototype.matchesSelector ||
+					Element.prototype.webkitMatchesSelector ||
+					Element.prototype.mozMatchesSelector ||
+					Element.prototype.msMatchesSelector;
+			}
+		})();
+	}
+}
+myPopups(); // ПОПАПЫ
+
+function myBurger() {
+	if (document.getElementById("menu-content")) {
+		const burgerOpen = document.getElementById("menu-open");
+		const burgerContent = document.getElementById("menu-content");
+		const body = document.querySelector("body");
+
+		if (burgerOpen && burgerContent) {
+			burgerOpen.addEventListener("click", function () {
+				burgerContent.classList.toggle("_active");
+				burgerOpen.classList.toggle("_active");
+				body.classList.toggle("_lock-scroll");
+				document.querySelector(".header__wrapper").classList.toggle("_active");
+			});
+
+			const burgerClose = document.getElementById("menu-close");
+
+			document.addEventListener("click", function (e) {
+				const elementTarget = e.target;
+
+				if (elementTarget === burgerClose) {
+					burgerContent.classList.remove("_active");
+					burgerOpen.classList.remove("_active");
+					body.classList.remove("_lock-scroll");
+					document.querySelector(".header__wrapper").classList.remove("_active");
+				}
+			});
+
+			if (document.querySelector("[data-popup-open]")) {
+				function popupTarget() {
+					const buttons = document.querySelectorAll("[data-popup-open]")
+
+					buttons.forEach(button => {
+						button.addEventListener("click", function () {
+							burgerContent.classList.remove("_active");
+							burgerOpen.classList.remove("_active");
+							document.querySelector(".header__wrapper").classList.remove("_active");
+						});
+					});
+				}
+				popupTarget()
+			}
+		}
+	}
+}
+myBurger(); // МЕНЮ БУРГЕР
+
+function myTabs() {
+	document.addEventListener("click", (e) => {
+		const elementTarget = e.target;
+
+		if (elementTarget.closest("[data-tab-btn]")) {
+			const att = elementTarget.getAttribute("data-tab-btn");
+			const modernAtt = `[data-tab="${att}"]`;
+
+			const itemTab = elementTarget.closest("[data-tabs]").querySelector(`${modernAtt}`);
+
+			itemTab.style.display = "block";
+			const buttons = elementTarget.closest("[data-tabs]").querySelectorAll("[data-tab-btn]");
+
+			console.log(elementTarget.closest("[data-tabs]").querySelector(`${modernAtt}`).getBoundingClientRect())
+
+			buttons.forEach(button => {
+				button.classList.remove("_active");
+			});
+			elementTarget.classList.add("_active");
+
+			const tabs = elementTarget.closest("[data-tabs]").querySelectorAll("[data-tab]");
+
+			tabs.forEach((tab) => {
+				if (tab.getAttribute("data-tab") === att) {
+				} else {
+					tab.style.display = "none";
+				}
+			});
+		}
+	});
+}
+myTabs();; // ТАБЫ
+
+/* function myRatingStars() {
+	const ratings = document.querySelectorAll(".rating-stars");
+
+	if (ratings.length > 0) {
+		let ratingActive, ratingValue;
+
+		for (let index = 0; index < ratings.length; index++) {
+			const rating = ratings[index];
+
+			function initRating() {
+				ratingVars(rating)
+				setRating()
+
+				if (rating.classList.contains("rating-stars_set")) {
+					const items = rating.querySelectorAll(".rating-stars__item");
+					for (let index = 0; index < items.length; index++) {
+						const item = items[index];
+
+						item.style.cursor = "pointer";
+
+						item.addEventListener("mouseenter", function () {
+							ratingVars(rating)
+							setRating(item.value)
+						});
+						item.addEventListener("mouseleave", function () {
+							setRating()
+						});
+						item.addEventListener("click", function () {
+							ratingVars(rating)
+
+							if (this.getAttribute("data-rating-text")) {
+								ratingValue.innerHTML = this.getAttribute("data-rating-text");
+							} else {
+								ratingValue.innerHTML = index + 1;
+							}
+
+							setRating()
+						});
+					}
+				}
+			}
+			initRating();
+
+			function ratingVars() {
+				ratingActive = rating.querySelector(".rating-stars__active");
+				ratingValue = rating.querySelector(".rating-stars__value");
+			}
+
+			function setRating(index = ratingValue.innerHTML) {
+				const ratingActiveWidth = index / 0.05;
+				ratingActive.style.width = `${ratingActiveWidth}%`;
+			}
+		}
+	}
+}
+myRatingStars(); // ЗВЕЗДНЫЙ РЕЙТИНГ */
+
+function myForms() {
+	const forms = document.querySelectorAll("form");
+
+	if (forms.length > 0) {
+		let error = 0;
+
+		let textError;
+		let ErrorNullValue;
+
+		ErrorNullValue = "Это обязательное поле";
+
+		forms.forEach(form => {
+			const inputs = form.querySelectorAll("input");
+			const textareas = form.querySelectorAll("textarea");
+			const checkboxs = form.querySelectorAll('input[type="checkbox"]');
+			const phones = form.querySelectorAll('input[type="tel"]');
+
+			if (form.classList.contains("_required")) {
+				form.addEventListener("submit", formValid);
+				inputs.forEach(input => {
+					input.addEventListener("focus", formFocus);
+				});
+				textareas.forEach(textarea => {
+					textarea.addEventListener("focus", formFocus);
+				});
+				inputs.forEach(input => {
+					input.addEventListener("blur", function (e) {
+						const elementTarget = e.target;
+
+						if (!elementTarget.classList.contains("_invalid")) {
+							elementTarget.classList.add("_invalid");
+
+							textError = this.getAttribute("data-form-prompt");
+							if (textError === null || textError === "") {
+								textError = `${ErrorNullValue}`;
+							}
+
+							if (input.value.match(/^[ ]+$/)) {
+								input.classList.add("_invalid");
+								error++;
+								input.value = '';
+							}
+
+							if (!elementTarget.classList.contains("_email") && !elementTarget.classList.contains("_password") && !elementTarget.classList.contains("_phone")) {
+								if (input.value.length < 2) {
+									input.classList.add("_invalid");
+									let textInfo = `${textError}`;
+									formBlur(textInfo, e)
+								} else {
+									input.classList.remove("_invalid");
+								}
+							}
+							if (elementTarget.classList.contains("_email")) {
+								const emailValid = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+
+								function validateEmail(value) {
+									return emailValid.test(value);
+								}
+
+								if (!validateEmail(input.value)) {
+									input.classList.add("_invalid");
+									let textInfo = `${textError}`;
+									formBlur(textInfo, e)
+								} else {
+									input.classList.remove("_invalid");
+								}
+							}
+							if (elementTarget.classList.contains("_password")) {
+								const minimum8Chars = /^.{8,}$/;
+								const beginWithoutDigit = /^\D.*$/;
+								const withoutSpecialChars = /^[^-() /]*$/;
+								const containsLetters = /^.*[a-zA-Z]+.*$/;
+								if (minimum8Chars.test(input.value) && beginWithoutDigit.test(input.value) && withoutSpecialChars.test(input.value) && containsLetters.test(input.value)) {
+									input.classList.remove("_invalid");
+								} else {
+									input.classList.add("_invalid");
+									let textInfo = `${textError}`;
+									formBlur(textInfo, e)
+								}
+							}
+							if (elementTarget.classList.contains("_phone")) {
+								phones.forEach(phone => {
+									const requiredPhone = /^[\d\+][\d\(\)\ -]{4,14}\d$/;
+									const valid = requiredPhone.test(phone.value);
+
+									if (!valid) {
+										input.classList.add("_invalid");
+									} else {
+										input.classList.remove("_invalid");
+									}
+								});
+
+								let textInfo = `${textError}`;
+								formBlur(textInfo, e)
+							}
+						}
+					});
+				});
+				textareas.forEach(textarea => {
+					textarea.addEventListener("blur", function (e) {
+						const elementTarget = e.target;
+
+						if (!elementTarget.classList.contains("_invalid")) {
+							textError = this.getAttribute("data-form-prompt");
+							if (textError === null || textError === "") {
+								textError = `${ErrorNullValue}`;
+							}
+
+							if (textarea.value.match(/^[ ]+$/)) {
+								textarea.classList.add("_invalid");
+								error++;
+								textarea.value = '';
+							}
+
+							if (textarea.value.length < 2) {
+								textarea.classList.add("_invalid");
+								let textInfo = `${textError}`;
+
+								if (textarea.classList.contains("_invalid")) {
+									if (textarea.parentElement.querySelectorAll(".field__error").length < 1) {
+										const template = `
 											<div class="field__error field-error">
 												<span class="field-error__icon">!</span>
 												<div class="field-error__dropdown">
-													${c}
+													${textInfo}
 												</div>
 											</div>
-											`;a.parentElement.insertAdjacentHTML("beforeEnd",b)}}})}),l.forEach(a=>{a.addEventListener("change",function(){h(a)})}),document.addEventListener("click",function(a){const b=a.target;if(isMobile.any()){const a=document.querySelectorAll(".field-error__icon");a.forEach(a=>{a.nextElementSibling.classList.contains("_active")?b!=a&&a.nextElementSibling.classList.remove("_active"):b===a&&a.nextElementSibling.classList.toggle("_active")})}}))})}}myForms();let isMobile={Android:function(){return navigator.userAgent.match(/Android/i)},BlackBerry:function(){return navigator.userAgent.match(/BlackBerry/i)},iOS:function(){return navigator.userAgent.match(/iPhone|iPad|iPod/i)},Opera:function(){return navigator.userAgent.match(/Opera Mini/i)},Windows:function(){return navigator.userAgent.match(/IEMobile/i)},any:function(){return isMobile.Android()||isMobile.BlackBerry()||isMobile.iOS()||isMobile.Opera()||isMobile.Windows()}};isMobile.any()?document.body.classList.add("_touch"):document.body.classList.add("_pc");function copyWallet(){const a=document.querySelector(".column-item-awards__button"),b=document.querySelector(".column-item-awards__input");if(a&&b){function c(){0<b.value.length?(a.removeAttribute("disabled"),d.forEach(a=>{a.innerHTML="\u0421\u043A\u043E\u043F\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043A\u043E\u0448\u0435\u043B\u0435\u043A"})):(a.setAttribute("disabled","disabled"),d.forEach(a=>{a.innerHTML="\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0434\u0430\u043D\u043D\u044B\u0435"}))}const d=a.querySelectorAll(".button__tooltip");a.addEventListener("click",function(){0<b.value.length&&(b.select(),document.execCommand("copy"),d.forEach(a=>{a.innerHTML="\u0421\u043A\u043E\u043F\u0438\u0440\u043E\u0432\u0430\u043D\u043E: "+b.value}))}),a.addEventListener("mouseleave",function(){0<b.value.length?setTimeout(()=>{d.forEach(a=>{a.innerHTML="\u0421\u043A\u043E\u043F\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043A\u043E\u0448\u0435\u043B\u0435\u043A"})},300):d.forEach(a=>{a.innerHTML="\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0434\u0430\u043D\u043D\u044B\u0435"})}),b.addEventListener("input",c),document.addEventListener("DOMContentLoaded",c)}}copyWallet();
+											`;
+
+										textarea.parentElement.insertAdjacentHTML("beforeEnd", template);
+									}
+								} else {
+									textarea.parentElement.querySelectorAll(".field__error").forEach(error => {
+										error.remove()
+									});
+								}
+							}
+						}
+					});
+				});
+				checkboxs.forEach(checkbox => {
+					checkbox.addEventListener("change", function () {
+						validCheckbox(checkbox)
+					});
+				});
+
+				document.addEventListener("click", function (e) {
+					const elementTarget = e.target;
+
+					if (isMobile.any()) {
+						const iconErrors = document.querySelectorAll(".field-error__icon")
+						iconErrors.forEach(iconError => {
+							if (!iconError.nextElementSibling.classList.contains("_active")) {
+								if (elementTarget === iconError) {
+									iconError.nextElementSibling.classList.toggle("_active");
+								}
+							} else {
+								if (elementTarget != iconError) {
+									iconError.nextElementSibling.classList.remove("_active");
+								}
+							}
+						});
+					}
+				});
+			}
+
+			function formBlur(textInfo, e) {
+				const elementTarget = e.target;
+
+				if (elementTarget.classList.contains("_invalid")) {
+					if (elementTarget.parentElement.querySelectorAll(".field__error").length < 1) {
+						const template = `
+							<div class="field__error field-error">
+								<span class="field-error__icon">!</span>
+								<div class="field-error__dropdown">
+									${textInfo}
+								</div>
+							</div>
+							`;
+
+						elementTarget.parentElement.insertAdjacentHTML("beforeEnd", template);
+					}
+				} else {
+					elementTarget.parentElement.querySelectorAll(".field__error").forEach(error => {
+						error.remove()
+					});
+				}
+			}
+
+			function formFocus(e) {
+				const elementTarget = e.target;
+				if (elementTarget.classList.contains("_invalid")) {
+					elementTarget.classList.remove("_invalid");
+					elementTarget.parentElement.querySelectorAll(".field__error").forEach(error => {
+						error.remove()
+					});
+				}
+			}
+
+			function validCheckbox(checkbox) {
+				if (checkbox.classList.contains("_required")) {
+					textError = checkbox.getAttribute("data-form-prompt");
+					if (textError === null || textError === "") {
+						textError = `${ErrorNullValue}`;
+					}
+
+					if (checkbox.checked === true) {
+						checkbox.classList.remove("_invalid");
+						checkbox.parentElement.querySelectorAll(".field__error").forEach(error => {
+							error.remove()
+						});
+					} else {
+						checkbox.classList.add("_invalid");
+						error++;
+						let textInfo = `${textError}`;
+
+						if (checkbox.parentElement.querySelectorAll(".field__error").length < 1) {
+							const template = `
+										<div class="field__error field-error">
+											<span class="field-error__icon">!</span>
+											<div class="field-error__dropdown">
+												${textInfo}
+											</div>
+										</div>
+										`;
+
+							checkbox.parentElement.insertAdjacentHTML("beforeEnd", template);
+						}
+					}
+				}
+			}
+
+			function formValid(e) {
+				inputs.forEach(input => {
+					if (input.classList.contains("_required")) {
+						textError = input.getAttribute("data-form-prompt");
+						if (textError === null || textError === "") {
+							textError = `${ErrorNullValue}`;
+						}
+
+						validAllInputs()
+
+						if (!input.classList.contains("_email") &&
+							!input.classList.contains("_password") &&
+							!input.classList.contains("_phone") &&
+							!input.classList.contains("_name")) {
+							let textInfo = `${textError}`;
+							addError(textInfo)
+						}
+
+						if (input.classList.contains("_email")) {
+							validEmail()
+						}
+						if (input.classList.contains("_password")) {
+							validPassword()
+						}
+						if (input.classList.contains("_phone")) {
+							validPhone()
+						}
+
+						function validEmail() {
+							const emailValid = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+
+							function validateEmail(value) {
+								return emailValid.test(value);
+							}
+
+							if (!validateEmail(input.value)) {
+								input.classList.add("_invalid");
+								error++;
+							} else {
+								input.classList.remove("_invalid");
+							}
+
+							let textInfo = `${textError}`;
+							addError(textInfo)
+						}
+
+						function validPassword() {
+							const minimum8Chars = /^.{8,}$/;
+							const beginWithoutDigit = /^\D.*$/;
+							const withoutSpecialChars = /^[^-() /]*$/;
+							const containsLetters = /^.*[a-zA-Z]+.*$/;
+
+							if (minimum8Chars.test(input.value) &&
+								beginWithoutDigit.test(input.value) &&
+								withoutSpecialChars.test(input.value) &&
+								containsLetters.test(input.value)) {
+								input.classList.remove("_invalid");
+							} else {
+								input.classList.add("_invalid");
+								error++;
+							}
+
+							let textInfo = `${textError}`;
+							addError(textInfo)
+						}
+
+						function validPhone() {
+							phones.forEach(phone => {
+								const requiredPhone = /^[\d\+][\d\(\)\ -]{4,14}\d$/;
+								const valid = requiredPhone.test(phone.value);
+
+								if (!valid) {
+									input.classList.add("_invalid");
+									error++;
+								} else {
+									input.classList.remove("_invalid");
+								}
+							});
+
+							let textInfo = `${textError}`;
+							addError(textInfo)
+						}
+
+						function validAllInputs() {
+							if (input.value.length < 2) {
+								input.classList.add("_invalid");
+								error++;
+							} else {
+								input.classList.remove("_invalid");
+							}
+
+							if (input.value.match(/^[ ]+$/)) {
+								input.classList.add("_invalid");
+								error++;
+								input.value = '';
+							}
+						}
+
+						function addError(textInfo) {
+							if (input.classList.contains("_invalid")) {
+								if (input.parentElement.querySelectorAll(".field__error").length < 1) {
+									const template = `
+										<div class="field__error field-error">
+											<span class="field-error__icon">!</span>
+											<div class="field-error__dropdown">
+												${textInfo}
+											</div>
+										</div>
+										`;
+
+									input.parentElement.insertAdjacentHTML("beforeEnd", template);
+								}
+							} else {
+								input.parentElement.querySelectorAll(".field__error").forEach(error => {
+									error.remove()
+								});
+							}
+						}
+					}
+				});
+				textareas.forEach(textarea => {
+					if (textarea.classList.contains("_required")) {
+						textError = textarea.getAttribute("data-form-prompt");
+						if (textError === null || textError === "") {
+							textError = `${ErrorNullValue}`;
+						}
+
+						if (textarea.value.match(/^[ ]+$/)) {
+							textarea.classList.add("_invalid");
+							error++;
+							textarea.value = '';
+						}
+
+						if (textarea.value.length < 2) {
+							textarea.classList.add("_invalid");
+
+							let textInfo = `${textError}`;
+
+							if (textarea.classList.contains("_invalid")) {
+								if (textarea.parentElement.querySelectorAll(".field__error").length < 1) {
+									const template = `
+										<div class="field__error field-error">
+											<span class="field-error__icon">!</span>
+											<div class="field-error__dropdown">
+												${textInfo}
+											</div>
+										</div>
+										`;
+
+									textarea.parentElement.insertAdjacentHTML("beforeEnd", template);
+								}
+							} else {
+								textarea.parentElement.querySelectorAll(".field__error").forEach(error => {
+									error.remove()
+								});
+							}
+						} else {
+							textarea.classList.remove("_invalid");
+						}
+					}
+				});
+				checkboxs.forEach(checkbox => {
+					validCheckbox(checkbox)
+				});
+
+				const invalids = form.querySelectorAll("._invalid");
+				if (invalids.length < 1) {
+					error = 0;
+				}
+
+				if (error > 0) {
+					e.preventDefault();
+				}
+			}
+		});
+	}
+}
+myForms(); // ВАЛИДАЦИЯ ФОРМЫ
+
+//< " СКРИПТЫ " >=============================================================================================================>//
+
+let isMobile = {
+	Android: function () { return navigator.userAgent.match(/Android/i); },
+	BlackBerry: function () { return navigator.userAgent.match(/BlackBerry/i); },
+	iOS: function () { return navigator.userAgent.match(/iPhone|iPad|iPod/i); },
+	Opera: function () { return navigator.userAgent.match(/Opera Mini/i); },
+	Windows: function () { return navigator.userAgent.match(/IEMobile/i); },
+	any: function () { return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows()); }
+};
+
+if (isMobile.any()) {
+	document.body.classList.add("_touch");
+} else {
+	document.body.classList.add("_pc");
+}
+
+//< " СКРИПТЫ " >=============================================================================================================>//
+
+function copyWallet() {
+	const button = document.querySelector(".column-item-awards__button");
+	const input = document.querySelector(".column-item-awards__input");
+
+	if (button && input) {
+		const tooltip = button.querySelectorAll(".button__tooltip");
+
+		button.addEventListener("click", function () {
+			if (input.value.length > 0) {
+				input.select();
+				document.execCommand("copy");
+
+				tooltip.forEach(item => {
+					item.innerHTML = "Скопировано: " + input.value;
+				});
+			}
+		});
+
+		button.addEventListener("mouseleave", function () {
+			if (input.value.length > 0) {
+				setTimeout(() => {
+					tooltip.forEach(item => {
+						item.innerHTML = "Скопировать кошелек";
+					});
+				}, 300);
+			} else {
+				tooltip.forEach(item => {
+					item.innerHTML = "Введите данные";
+				});
+			}
+		});
+
+		input.addEventListener("input", validInput);
+		document.addEventListener("DOMContentLoaded", validInput);
+
+		function validInput() {
+			if (input.value.length > 0) {
+				button.removeAttribute("disabled");
+				tooltip.forEach(item => {
+					item.innerHTML = "Скопировать кошелек";
+				});
+			} else {
+				button.setAttribute("disabled", "disabled");
+				tooltip.forEach(item => {
+					item.innerHTML = "Введите данные";
+				});
+			}
+		}
+	}
+}
+copyWallet()
