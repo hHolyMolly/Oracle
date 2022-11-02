@@ -196,6 +196,9 @@ const myChartSecond = new Chart(ctxSecond, {
 			tooltip: {
 				enabled: false,
 				external: external,
+				callbacks: {
+					label: label,
+				}
 			}
 		}
 	}
@@ -253,6 +256,9 @@ const myChartThird = new Chart(ctxThird, {
 			tooltip: {
 				enabled: false,
 				external: external,
+				callbacks: {
+					label: label,
+				}
 			}
 		}
 	}
@@ -310,6 +316,9 @@ const myChartFourth = new Chart(ctxFourth, {
 			tooltip: {
 				enabled: false,
 				external: external,
+				callbacks: {
+					label: label,
+				}
 			}
 		}
 	}
